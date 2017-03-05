@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "View as PowerShell",
+  "short_name":"powerShellV",
+  "version": "0.9.3",
+  "content_scripts": [
+  {
+    "matches": [
+      "https://msdn.microsoft.com/*/library/*",
+      "http://stackoverflow.com/*",
+      "https://github.com/*",
+      "https://gist.github.com/*"
+    ],
+    "css": ["default.css"],
+    "js": ["highlight.pack.js", "jquery-3.1.1.min.js", "content.js"]
+  }
+]
+}
