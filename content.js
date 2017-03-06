@@ -1,15 +1,13 @@
 var baseUrl = 'https://codeconverter.net/';
-//baseUrl = 'http://localhost:2283/'
+//var baseUrl = 'http://localhost:2283/'
 
 function Convert(outputContainer, code) {
     $(outputContainer).prepend('<div style="width:100%;border-bottom: solid 1px #939393"><a href="#!">View PowerShell</a></div>');
     $(outputContainer).find("a").on("click", function () {
         $.post(baseUrl + 'api/csharp/powershell', {
-            content: code,
-            sourceTitle: document.title,
-            sourceUrl: document.location.href
+            content: code
         }).done(function (data) {
-            window.open(baseUrl + 'conversion/raw/' + data.sourceId + '/' + data.language);
+            window.open(baseUrl + 'conversion/' + data.conversionId);
         });
     });
 }
@@ -59,13 +57,16 @@ function ConvertStackOverflow() {
     });
 }
 
-if (document.location.href.indexOf("https://msdn.microsoft.com") !== -1) {
-    ConvertMsdn();
-} else if (document.location.href.indexOf("https://github.com") !== -1 || 
-        document.location.href.indexOf("https://gist.github.com"))
-{
-    ConvertGitHub();
-}
- else {
-    ConvertStackOverflow();
-}
+$(document).ready(function() {
+    if (document.location.href.indexOf("https://msdn.microsoft.com") !== -1) {
+        ConvertMsdn();
+    } else if (document.location.href.indexOf("https://github.com") !== -1 || 
+            document.location.href.indexOf("https://gist.github.com") !== -1)
+    {
+        ConvertGitHub();
+    }
+    else {
+        ConvertStackOverflow();
+    }
+});
+
