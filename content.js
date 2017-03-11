@@ -1,8 +1,7 @@
 var baseUrl = 'https://codeconverter.net/';
-//var baseUrl = 'http://localhost:2283/'
 
 function Convert(outputContainer, code) {
-    $(outputContainer).prepend('<div style="width:100%;border-bottom: solid 1px #939393"><a href="#!">View PowerShell</a></div>');
+    $(outputContainer).prepend('<div class="powershellblk"><a href="#!" class="powershellbtn powershellbtn-primary">View as PowerShell</a></div>');
     $(outputContainer).find("a").on("click", function () {
         $.post(baseUrl + 'api/csharp/powershell', {
             content: code
@@ -57,6 +56,13 @@ function ConvertStackOverflow() {
     });
 }
 
+function ConvertPinvokeNet() {
+    var snippets = $("h4:contains('C# Signature:')").next();
+    $.each(snippets, function( i, snippet) {
+        Convert(snippet, $(snippet).text());
+    });
+}
+
 $(document).ready(function() {
     if (document.location.href.indexOf("https://msdn.microsoft.com") !== -1) {
         ConvertMsdn();
@@ -64,6 +70,8 @@ $(document).ready(function() {
             document.location.href.indexOf("https://gist.github.com") !== -1)
     {
         ConvertGitHub();
+    } else if (document.location.href.indexOf("http://pinvoke.net") !== -1) {
+        ConvertPinvokeNet();
     }
     else {
         ConvertStackOverflow();
